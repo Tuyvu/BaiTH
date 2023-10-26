@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+@model IEnumerable<Course>
+<div class="ms-2 mx-2">
+    <h1>Course List</h1>
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Số Tín</th>
+               @*  <th>Ngày bắt đầu</th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var s in Model)
+            {
+                <tr>
+                    <td>@s.CourseID</td>
+                    <td>@s.Title</td>
+                    <td>@s.Credits</td>
+                   @*  <td><a asp-action=""></a></td> *@
+                </tr> 
+            }
+        </tbody>
+    </table>
+    <a asp-action="Create" class="btn btn-primary">Create new Course</a>
+</div>

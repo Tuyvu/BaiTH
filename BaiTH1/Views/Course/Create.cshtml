@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+@model Course
+<div class="ms-2 mx-2">
+    <h1>Create</h1>
+    <form asp-controller="Course" asp-action="Create" method="post" class="mt-3">
+        <div style="margin-top:7px" class="form-group row">
+            <label asp-for="Title" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Title" class="form-control" placeholder="Title">
+            </div>
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div style="margin-top:7px" class="form-group row">
+            <label asp-for="Credits" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Credits" class="form-control" placeholder="Credits">
+            </div>
+            <span asp-validation-for="Credits" class="text-danger"></span>
+        </div>
+        <div style="margin-top:10px" class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </form>
+
+</div>

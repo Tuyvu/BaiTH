@@ -1,0 +1,111 @@
+﻿@using PagedList.Mvc;
+@using X.PagedList.Mvc.Core
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@model X.PagedList.PagedList<BaiTH1.Models.Learner>
+@*  @model IEnumerable<Learner> *@
+ <div class="ms-2 mx-2">
+    <h1>Learner List</h1>
+    @await Component.InvokeAsync("Major")
+    <div id="content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Mã</th>
+                    <th>Tên</th>
+                    <th>Họ</th>
+                    <th>Ngành</th>
+                    <th>Ngày Nhập Học</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@s.LearnerID</td>
+                        <td>@s.FirstMidName</td>
+                        <td>@s.LastName</td>
+                        <td>@s.Major.MajorName</td>
+                        <td>@s.EnrollmentDate</td>
+                        <td><a asp-action="Edit" asp-route-id="@s.LearnerID">Edit</a>|<a asp-action="Delete" asp-route-id="@s.LearnerID">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        
+        <a asp-controller="Home" asp-action="Create" class="btn btn-primary">Create New Student</a>
+        <ul class="pagination">
+            @for (int i = 1; i <= Model.PageCount; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")"><a class="page-link" data-page="@i">@i</a></li>
+            }
+        </ul>
+    </div>
+   
+ </div>
+
+
+ @section Scripts{
+     <script>
+         var x;
+         var y;
+        $(document).on("click", ".pagination a", function (e) {
+            console.log("run p");
+            var id = x;
+            var page = $(this).data("page");
+            $(".pagination li").removeClass("active"); 
+            $(this).parent().addClass("active");
+
+            loadPage(id,page);
+            console.log(id);
+        });
+        function loadPage(id,page) {
+            $.ajax({
+                url: "/Learner/LearnerByMajorID", // Adjust the URL as needed
+                data: { mid: id, page: page , search: y},
+                type: "GET",
+                success: function (response) {
+                    $("div#content").html(response);
+                }
+            });
+            
+        }
+        $("li.nav-item").click(function (e) {
+             var id = $(this).attr("id");
+            x = id;
+            y = null;
+            console.log(x);
+            console.log(y);
+            $.ajax({
+                url: "/Learner/LearnerByMajorID",
+                data: { mid: id },
+                success: function (response) {
+                    $("div#content").html(response);
+                }
+            });
+         });
+       
+         $("#btnNavbarSearch").click(function (e) {
+             var txtSearch = $('#txtSearch').val();
+             y = txtSearch;
+             x = null;
+            console.log(x);
+            console.log(y);
+             $.ajax({
+                url: "/Learner/LearnerByMajorID",
+                 data: { search: txtSearch },
+                 success: function (response) {
+                     $("div#content").html(response);
+                 }
+             });
+         });
+        
+     
+     </script>
+     
+ }
